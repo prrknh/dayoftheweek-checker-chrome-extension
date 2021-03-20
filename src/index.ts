@@ -2,7 +2,7 @@ import getInvalidDayOfTheWeekList from "./CheckDayOfTheWeek";
 
 const mark = "markedByCheckedOfTheWeekChromeExtension";
 
-function onChanged(e: Event) {
+function onFocusOut(e: Event) {
   const list = getInvalidDayOfTheWeekList(
     (e.target as HTMLTextAreaElement).value
   );
@@ -12,13 +12,18 @@ function onChanged(e: Event) {
     );
   });
   if (list.length > 0) {
-    (e.target as HTMLElement).setAttribute("id", mark);
+    (e.target as HTMLElement).classList.add(mark);
   }
+}
+
+function onFocus(e: Event) {
+  (e.target as HTMLElement).classList.remove(mark);
 }
 
 export function listen() {
   document.querySelectorAll("textarea").forEach((input) => {
-    input.addEventListener("change", (ev) => onChanged(ev));
+    input.addEventListener("focusout", (ev) => onFocusOut(ev));
+    input.addEventListener("focus", (ev) => onFocus(ev));
   });
 }
 
@@ -27,7 +32,7 @@ function setStyle() {
   document.head.appendChild(styleElement);
   if (styleElement.sheet) {
     styleElement.sheet?.insertRule(
-      `textarea#${mark} {border-color:red; border-width: thick;}`,
+      `textarea.${mark} {border-color:red; border-width: thick;}`,
       0
     );
   }
