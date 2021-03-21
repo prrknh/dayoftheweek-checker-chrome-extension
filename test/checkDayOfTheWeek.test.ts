@@ -1,4 +1,4 @@
-import getInvalidDayOfTheWeekList from "../src/CheckDayOfTheWeek";
+import getInvalidDayOfTheWeekList from "../src/lib/CheckDayOfTheWeek";
 
 test("test", (): void => {
   const r = {

@@ -1,3 +1,5 @@
+import { browser } from "webextension-polyfill-ts";
+
 chrome.runtime.onInstalled.addListener(function () {
   chrome.contextMenus.create({
     type: "normal",
@@ -7,10 +9,15 @@ chrome.runtime.onInstalled.addListener(function () {
   });
 });
 
-chrome.contextMenus.onClicked.addListener(function (info) {
-  switch (info.menuItemId) {
-    case "check":
-      console.log(info.selectionText);
-      break;
-  }
+browser.contextMenus.onClicked.addListener((info) => {
+  return browser.tabs
+    .query({ active: true, currentWindow: true })
+    .then((tabs) => {
+      return browser.tabs.sendMessage(Number(tabs[0].id), {
+        message: {
+          id: "fromContextMenuWithSelectedText",
+          selectedText: info.selectionText,
+        },
+      });
+    });
 });
