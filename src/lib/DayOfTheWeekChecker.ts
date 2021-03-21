@@ -6,7 +6,7 @@ const regExp = new RegExp(
 );
 const dayOfWeeks = ["日", "月", "火", "水", "木", "金", "土"];
 
-type InvalidDayOfTheWeek = {
+type checkedResult = {
   isInvalid: boolean;
   invalidDayOfTheWeek: string;
   validDayOfTheWeek: string;
@@ -15,14 +15,14 @@ type InvalidDayOfTheWeek = {
 };
 
 export default class DayOfTheWeekChecker {
-  foundList: InvalidDayOfTheWeek[];
+  private readonly foundList: checkedResult[];
 
   constructor(input: string) {
     const matchDateWithDayOfTheWeeks: IterableIterator<RegExpMatchArray> = input.matchAll(
       regExp
     );
 
-    const list: InvalidDayOfTheWeek[] = [];
+    const list: checkedResult[] = [];
     for (let matched of matchDateWithDayOfTheWeeks) {
       if (!matched.groups) {
         console.warn("no matched groups!");
@@ -45,7 +45,20 @@ export default class DayOfTheWeekChecker {
         validDayOfTheWeek: dayOfWeekFromYMD,
       });
     }
-    this.foundList = list;
+
+    const uniqList: checkedResult[] = [];
+    list.forEach((w) => {
+      if (
+        !uniqList.find(
+          (s) =>
+            s.targetDateStr === w.targetDateStr &&
+            s.invalidDayOfTheWeek === w.invalidDayOfTheWeek
+        )
+      )
+        uniqList.push(w);
+    });
+
+    this.foundList = uniqList;
   }
 
   getHtmlMessage(): string {
@@ -59,6 +72,10 @@ export default class DayOfTheWeekChecker {
         }
       })
       .join("</br>");
+  }
+
+  getFoundList(): checkedResult[] {
+    return this.foundList;
   }
 
   getFoundCnt(): number {
