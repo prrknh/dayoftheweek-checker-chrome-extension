@@ -7,6 +7,7 @@ const regExp = new RegExp(
 const dayOfWeeks = ["日", "月", "火", "水", "木", "金", "土"];
 
 type InvalidDayOfTheWeek = {
+  isInvalid: boolean;
   invalidDayOfTheWeek: string;
   validDayOfTheWeek: string;
   targetDate: Date;
@@ -34,14 +35,26 @@ export default function getInvalidDayOfTheWeekList(
     );
     const dayOfWeekFromYMD = dayOfWeeks[dateFromYMD.getDay()];
 
-    if (dayOfWeekFromYMD !== matched.groups.dayoftheweek) {
-      list.push({
-        invalidDayOfTheWeek: matched.groups.dayoftheweek,
-        targetDate: dateFromYMD,
-        targetDateStr: format(dateFromYMD, "yyyy/MM/dd"),
-        validDayOfTheWeek: dayOfWeekFromYMD,
-      });
-    }
+    list.push({
+      isInvalid: dayOfWeekFromYMD !== matched.groups.dayoftheweek,
+      invalidDayOfTheWeek: matched.groups.dayoftheweek,
+      targetDate: dateFromYMD,
+      targetDateStr: format(dateFromYMD, "yyyy/MM/dd"),
+      validDayOfTheWeek: dayOfWeekFromYMD,
+    });
   }
   return list;
+}
+
+export function getHtmlMessage(list: InvalidDayOfTheWeek[]): string {
+  if (list.length == 0) return "曜日文字列は見つかりませんでした。";
+  return list
+    .map((s) => {
+      if (s.isInvalid) {
+        return `<span style="color: red">NG: ${s.targetDateStr}は${s.invalidDayOfTheWeek}曜日ではなく${s.validDayOfTheWeek}曜日です</span>`;
+      } else {
+        return `OK: ${s.targetDateStr}は${s.validDayOfTheWeek}曜日で合ってます`;
+      }
+    })
+    .join("</br>");
 }

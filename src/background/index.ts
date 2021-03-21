@@ -4,7 +4,7 @@ chrome.runtime.onInstalled.addListener(function () {
   chrome.contextMenus.create({
     type: "normal",
     id: "check",
-    title: "check %s",
+    title: 'check "%s"',
     contexts: ["selection"],
   });
 });

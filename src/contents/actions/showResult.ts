@@ -1,12 +1,10 @@
 import createFloating from "./createFloating";
-import getInvalidDayOfTheWeekList from "../../lib/CheckDayOfTheWeek";
+import getInvalidDayOfTheWeekList, {
+  getHtmlMessage,
+} from "../../lib/CheckDayOfTheWeek";
 
 export default function showCheckResult(input: string) {
-  const message = getInvalidDayOfTheWeekList(input)
-    .map((s) => {
-      return `${s.targetDateStr}は${s.invalidDayOfTheWeek}ではなく${s.validDayOfTheWeek}です`;
-    })
-    .join("</br>");
-
-  createFloating(message);
+  const list = getInvalidDayOfTheWeekList(input);
+  const message = getHtmlMessage(list);
+  createFloating(message, list.length == 0 ? 1 : list.length);
 }
