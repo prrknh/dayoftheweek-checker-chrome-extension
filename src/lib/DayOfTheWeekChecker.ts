@@ -1,17 +1,17 @@
 import { format, parse } from "date-fns";
 
 const regExp = new RegExp(
-  "(?<year>[0-9]{4})[年\\/](?<month>[0-9]{1,2})[月\\/](?<date>[0-9]{1,2})日?[s]?[(（](?<dayoftheweek>[日月火水木金土])[)）]",
+  "(?<year>([0-9]{4})?)[年\\/]?(?<month>[0-9]{1,2})[月\\/](?<date>[0-9]{1,2})日?[s]?[(（](?<dayoftheweek>[日月火水木金土])[)）]",
   "g"
 );
 const dayOfWeeks = ["日", "月", "火", "水", "木", "金", "土"];
 
 type checkedResult = {
   isInvalid: boolean;
+  isGuessed: boolean;
   invalidDayOfTheWeek: string;
   validDayOfTheWeek: string;
   targetDate: Date;
-  targetDateStr: string;
 };
 
 export default class DayOfTheWeekChecker {
@@ -30,18 +30,25 @@ export default class DayOfTheWeekChecker {
         return;
       }
 
+      const year =
+        matched.groups.year !== ""
+          ? matched.groups.year
+          : this.guessYear(parseInt(matched.groups.month), new Date());
+
       const dateFromYMD = parse(
-        `${matched.groups.year}-${matched.groups.month}-${matched.groups.date}`,
+        `${year}-${matched.groups.month}-${matched.groups.date}`,
         "yyyy-MM-dd",
         new Date()
       );
+      if (isNaN(dateFromYMD.getDate())) break;
+
       const dayOfWeekFromYMD = dayOfWeeks[dateFromYMD.getDay()];
 
       list.push({
         isInvalid: dayOfWeekFromYMD !== matched.groups.dayoftheweek,
-        invalidDayOfTheWeek: matched.groups.dayoftheweek,
+        isGuessed: matched.groups.year === "",
         targetDate: dateFromYMD,
-        targetDateStr: format(dateFromYMD, "yyyy/MM/dd"),
+        invalidDayOfTheWeek: matched.groups.dayoftheweek,
         validDayOfTheWeek: dayOfWeekFromYMD,
       });
     }
@@ -51,7 +58,8 @@ export default class DayOfTheWeekChecker {
       if (
         !uniqList.find(
           (s) =>
-            s.targetDateStr === w.targetDateStr &&
+            format(s.targetDate, "yyyyMMdd") ===
+              format(w.targetDate, "yyyyMMdd") &&
             s.invalidDayOfTheWeek === w.invalidDayOfTheWeek
         )
       )
@@ -61,28 +69,42 @@ export default class DayOfTheWeekChecker {
     this.foundList = uniqList.sort((a, b) => (a.isInvalid ? -1 : 1));
   }
 
-  getHtmlMessage(): string {
+  private guessYear(targetMonth: number, now: Date): string {
+    if (Math.abs(now.getMonth() - targetMonth) < 6) {
+      return now.getFullYear().toString();
+    } else if (now.getMonth() - targetMonth > 0) {
+      return (now.getFullYear() + 1).toString();
+    } else {
+      return (now.getFullYear() - 1).toString();
+    }
+  }
+
+  public getHtmlMessage(): string {
     if (this.foundList.length == 0) return "曜日文字列は見つかりませんでした。";
     return this.foundList
       .map((s) => {
-        if (s.isInvalid) {
-          return `NG: ${s.targetDateStr}は${s.invalidDayOfTheWeek}曜日ではなく${s.validDayOfTheWeek}曜日です`;
-        } else {
-          return `OK: ${s.targetDateStr}は${s.validDayOfTheWeek}曜日で合ってます`;
-        }
+        return `
+            ${s.isInvalid ? "NG" : "OK"}
+            ${s.isGuessed ? "?:" : ":"}
+            ${s.isGuessed ? `${s.targetDate.getFullYear()}年の` : ""}
+            ${format(s.targetDate, s.isGuessed ? "MM/ddは" : "yyyy/MM/ddは")}
+            ${s.isInvalid ? s.invalidDayOfTheWeek + "曜日ではなく" : ""}
+            ${s.validDayOfTheWeek}曜日
+            ${s.isInvalid ? "です" : "で合ってます"}
+            `;
       })
       .join("</br>");
   }
 
-  getFoundList(): checkedResult[] {
+  public getFoundList(): checkedResult[] {
     return this.foundList;
   }
 
-  getFoundCnt(): number {
+  public getFoundCnt(): number {
     return this.foundList.length;
   }
 
-  hasInvalid(): boolean {
+  public hasInvalid(): boolean {
     return this.foundList.filter((s) => s.isInvalid).length > 0;
   }
 }

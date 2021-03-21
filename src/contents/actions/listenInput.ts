@@ -15,7 +15,7 @@ function onFocusOut(e: Event) {
   const checker = new DayOfTheWeekChecker(
     (e.target as HTMLTextAreaElement).value
   );
-  if (checker.getFoundCnt() > 0) {
+  if (checker.hasInvalid()) {
     showCheckResult(checker);
     (e.target as HTMLElement).classList.add(mark);
   }
