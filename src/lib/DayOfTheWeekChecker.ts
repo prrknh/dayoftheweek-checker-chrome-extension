@@ -58,7 +58,7 @@ export default class DayOfTheWeekChecker {
         uniqList.push(w);
     });
 
-    this.foundList = uniqList;
+    this.foundList = uniqList.sort((a, b) => (a.isInvalid ? -1 : 1));
   }
 
   getHtmlMessage(): string {
