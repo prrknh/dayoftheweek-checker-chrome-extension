@@ -691,6 +691,11 @@
   resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-1.0.6.tgz#a9ca4b70a18b270ccb2bc0aaafefd1d486b7ea74"
   integrity sha512-W+bw9ds02rAQaMvaLYxAbJ6cvguW/iJXNT6lTssS1ps6QdrMKttqEAMEG/b5CR8TZl3/L7/lH0ZV5nNR1LXikA==
 
+"@types/toastify-js@^1.9.1":
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/@types/toastify-js/-/toastify-js-1.9.1.tgz#fd0c39dae7b218ac004d1bf661e16f370cea866a"
+  integrity sha512-y97gmQ6WIG39JU0wLaZaZ8IodW2i40jgqJlg4KLmLgtdcyjWgV3skBTFnkfQQWleQNCJKtodTS1x1n7q1Co3Gg==
+
 "@types/uglify-js@*":
   version "3.13.0"
   resolved "https://registry.yarnpkg.com/@types/uglify-js/-/uglify-js-3.13.0.tgz#1cad8df1fb0b143c5aba08de5712ea9d1ff71124"
@@ -4101,6 +4106,11 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     extend-shallow "^3.0.2"
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
+
+toastify-js@^1.9.3:
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/toastify-js/-/toastify-js-1.9.3.tgz#cab81e077b8a3fa8ee602a7f054568c42a49a516"
+  integrity sha512-v0aXGUy6IbEBWxmoKx7ZCou00dQqEAsjJF86f8b8dNCH4O4L6iEkX3d3WRMVDirBJ+8CxQcHDZuAFD47J/imEw==
 
 tough-cookie@^2.3.3, tough-cookie@~2.5.0:
   version "2.5.0"

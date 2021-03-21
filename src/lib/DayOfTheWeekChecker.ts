@@ -53,7 +53,7 @@ export default class DayOfTheWeekChecker {
     return this.foundList
       .map((s) => {
         if (s.isInvalid) {
-          return `<span style="color: red">NG: ${s.targetDateStr}は${s.invalidDayOfTheWeek}曜日ではなく${s.validDayOfTheWeek}曜日です</span>`;
+          return `NG: ${s.targetDateStr}は${s.invalidDayOfTheWeek}曜日ではなく${s.validDayOfTheWeek}曜日です`;
         } else {
           return `OK: ${s.targetDateStr}は${s.validDayOfTheWeek}曜日で合ってます`;
         }
@@ -63,5 +63,9 @@ export default class DayOfTheWeekChecker {
 
   getFoundCnt(): number {
     return this.foundList.length;
+  }
+
+  hasInvalid(): boolean {
+    return this.foundList.filter((s) => s.isInvalid).length > 0;
   }
 }

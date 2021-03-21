@@ -1,5 +1,5 @@
-import createFloating from "./createFloating";
 import DayOfTheWeekChecker from "../../lib/DayOfTheWeekChecker";
+import showCheckResult from "./showResult";
 
 const mark = "markedByCheckedOfTheWeekChromeExtension";
 
@@ -16,7 +16,7 @@ function onFocusOut(e: Event) {
     (e.target as HTMLTextAreaElement).value
   );
   if (checker.getFoundCnt() > 0) {
-    createFloating(checker.getHtmlMessage(), checker.getFoundCnt());
+    showCheckResult(checker);
     (e.target as HTMLElement).classList.add(mark);
   }
 }
