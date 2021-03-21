@@ -1,6 +1,14 @@
 import Toastify from "toastify-js";
 import DayOfTheWeekChecker from "../../lib/DayOfTheWeekChecker";
 
+export function loadCssScript() {
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.type = "text/css";
+  link.href = "https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css";
+  document.head.appendChild(link);
+}
+
 export default function showCheckResult(checker: DayOfTheWeekChecker) {
   Toastify({
     text: checker.getHtmlMessage(),

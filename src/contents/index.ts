@@ -1,7 +1,8 @@
-import showCheckResult from "./actions/showResult";
+import showCheckResult, { loadCssScript } from "./actions/showResult";
 import listenInput from "./actions/listenInput";
 import DayOfTheWeekChecker from "../lib/DayOfTheWeekChecker";
 
+loadCssScript();
 listenInput();
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
