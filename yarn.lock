@@ -512,6 +512,11 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
+"@riversun/event-emitter@^1.2.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@riversun/event-emitter/-/event-emitter-1.5.1.tgz#ed6b74469a307163ba64189557cec805dd318f1b"
+  integrity sha512-1esny+18+x7vDPGwrDRP0EUVeQo1274Sn0D22Q7O5d1lIYfhXLtPc0zsmqKHReREYrOtWjCradG3VR5Jq6QU+g==
+
 "@sinonjs/commons@^1.7.0":
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.8.2.tgz#858f5c4b48d80778fde4b9d541f27edc0d56488b"
@@ -1711,6 +1716,11 @@ esutils@^2.0.2:
   resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.3.tgz#74d2eb4de0b8da1293711910d50775b9b710ef64"
   integrity sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==
 
+event-listener-helper@^1.0.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/event-listener-helper/-/event-listener-helper-1.1.2.tgz#a1f07316321a34edaacb701e6adb837778832c22"
+  integrity sha512-UHd160GSYNE7UOV292DKXRdwV7svDzfFwU9zdiyaB+3y/4rECA6tfV5QX7AHsafCPTGpnBe6bEZSyJPsdxyBYw==
+
 events@^3.2.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
@@ -2843,6 +2853,15 @@ jsesc@^2.5.1:
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-2.5.2.tgz#80564d2e483dacf6e8ef209650a67df3f0c283a4"
   integrity sha512-OYu7XEzjkCQ3C5Ps3QIZsQfNpqoJyZZA99wd9aWd05NCtC5pWOkShK2mkL6HXQR6/Cy2lbNdPlZBpuQHXE63gA==
 
+jsframe.js@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/jsframe.js/-/jsframe.js-1.6.2.tgz#7ddd7a0a7a0fd2d25b8da8363ca831ea57a1dab9"
+  integrity sha512-p2qGNR83X/DIpfmKbtMfBWaDY52smHaA3gJQH3WkQZpWTbjj/gdBWrg4IapYAA2i2AsyWLriZ8FROru8EN3OaA==
+  dependencies:
+    "@riversun/event-emitter" "^1.2.1"
+    event-listener-helper "^1.0.2"
+    merge-deeply "^2.1.0"
+
 json-parse-better-errors@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/json-parse-better-errors/-/json-parse-better-errors-1.0.2.tgz#bb867cfb3450e69107c131d1c514bab3dc8bcaa9"
@@ -3008,6 +3027,11 @@ memory-fs@^0.5.0:
   dependencies:
     errno "^0.1.3"
     readable-stream "^2.0.1"
+
+merge-deeply@^2.1.0:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/merge-deeply/-/merge-deeply-2.1.1.tgz#47bef107ea2d4348ba361b0c0b4a85fe8655a567"
+  integrity sha512-qrdVHmbN8plcHrMtVFbw7lihNoaHty3/9odOhnoq/LEYcN5c+AF5UnBpX6aSPuJdiCVzhQmhXYmN6WtF4IZ9zA==
 
 merge-stream@^2.0.0:
   version "2.0.0"

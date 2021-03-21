@@ -5,7 +5,8 @@
   "author": "prrknh <prrknh@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "date-fns": "^2.19.0"
+    "date-fns": "^2.19.0",
+    "jsframe.js": "^1.6.2"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.133",

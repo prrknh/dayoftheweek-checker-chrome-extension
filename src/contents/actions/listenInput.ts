@@ -1,4 +1,5 @@
 import getInvalidDayOfTheWeekList from "../../lib/CheckDayOfTheWeek";
+import createFloating from "./createFloating";
 
 const mark = "markedByCheckedOfTheWeekChromeExtension";
 
@@ -14,12 +15,13 @@ function onFocusOut(e: Event) {
   const list = getInvalidDayOfTheWeekList(
     (e.target as HTMLTextAreaElement).value
   );
-  list.forEach((s) => {
-    console.log(
-      `${s.targetDateStr}は${s.invalidDayOfTheWeek}ではなく${s.validDayOfTheWeek}です`
-    );
-  });
   if (list.length > 0) {
+    const message = list
+      .map((s) => {
+        return `${s.targetDateStr}は${s.invalidDayOfTheWeek}ではなく${s.validDayOfTheWeek}です`;
+      })
+      .join("</br>");
+    createFloating(message);
     (e.target as HTMLElement).classList.add(mark);
   }
 }
