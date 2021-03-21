@@ -1,25 +1,29 @@
-const path = require('path');
+const path = require("path");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-  mode: 'development',
-  entry: './src/index.ts',
+  mode: "development",
+  entry: {
+    background: "./src/background/index.ts",
+  },
   output: {
-    filename: 'bundle.js',
-    path: path.join(__dirname, 'dist/')
+    path: path.join(__dirname, "dist/"),
   },
   module: {
     rules: [
       {
         test: /\.ts$/,
-        use: 'ts-loader',
+        use: "ts-loader",
       },
     ],
   },
+  plugins: [
+    new CopyWebpackPlugin({
+      patterns: [{ from: "static", to: "." }],
+    }),
+  ],
   resolve: {
-    extensions: [
-      '.ts', '.js',
-    ],
+    extensions: [".ts", ".js"],
   },
   target: ["es5"],
 };
-
