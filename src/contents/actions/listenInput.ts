@@ -1,7 +1,5 @@
-import getInvalidDayOfTheWeekList, {
-  getHtmlMessage,
-} from "../../lib/CheckDayOfTheWeek";
 import createFloating from "./createFloating";
+import DayOfTheWeekChecker from "../../lib/DayOfTheWeekChecker";
 
 const mark = "markedByCheckedOfTheWeekChromeExtension";
 
@@ -14,11 +12,11 @@ export default function listenInput() {
 }
 
 function onFocusOut(e: Event) {
-  const list = getInvalidDayOfTheWeekList(
+  const checker = new DayOfTheWeekChecker(
     (e.target as HTMLTextAreaElement).value
   );
-  if (list.length > 0) {
-    createFloating(getHtmlMessage(list), list.length);
+  if (checker.getFoundCnt() > 0) {
+    createFloating(checker.getHtmlMessage(), checker.getFoundCnt());
     (e.target as HTMLElement).classList.add(mark);
   }
 }
