@@ -80,7 +80,7 @@ export default class DayOfTheWeekChecker {
   }
 
   public getHtmlMessage(): string {
-    if (this.foundList.length == 0) return "曜日文字列は見つかりませんでした。";
+    if (this.isNotFound()) return "曜日文字列は見つかりませんでした。";
     return this.foundList
       .map((s) => {
         return `
@@ -100,8 +100,8 @@ export default class DayOfTheWeekChecker {
     return this.foundList;
   }
 
-  public getFoundCnt(): number {
-    return this.foundList.length;
+  public isNotFound(): boolean {
+    return this.foundList.length == 0;
   }
 
   public hasInvalid(): boolean {

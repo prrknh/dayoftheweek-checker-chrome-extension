@@ -15,10 +15,19 @@ function onFocusOut(e: Event) {
   const checker = new DayOfTheWeekChecker(
     (e.target as HTMLTextAreaElement).value
   );
+
   showCheckResult(checker);
-  (e.target as HTMLElement).classList.add(
-    `${checker.hasInvalid() ? "invalid" : "valid"}${mark}`
-  );
+
+  if (checker.isNotFound()) {
+    (e.target as HTMLElement).classList.remove(
+      `invalid${mark}`,
+      `valid${mark}`
+    );
+  } else {
+    (e.target as HTMLElement).classList.add(
+      `${checker.hasInvalid() ? "invalid" : "valid"}${mark}`
+    );
+  }
 }
 
 function onFocus(e: Event) {
