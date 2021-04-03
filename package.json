@@ -5,6 +5,8 @@
   "author": "prrknh <prrknh@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
     "date-fns": "^2.19.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
