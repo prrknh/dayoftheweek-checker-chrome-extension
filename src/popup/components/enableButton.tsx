@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ListItem,
   ListItemIcon,
@@ -7,13 +7,21 @@ import {
   Switch,
 } from "@material-ui/core";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import { browser } from "webextension-polyfill-ts";
 
 export const EnableButton = () => {
-  const [enabled, setEnabled] = useState(true);
+  const [enabled, setEnabled] = useState(false);
 
   function onChange() {
+    browser.storage.local.set({ enableAutoCheck: !enabled }).then();
     setEnabled((prev) => !prev);
   }
+
+  useEffect(() => {
+    browser.storage.local.get("enableAutoCheck").then((ob) => {
+      setEnabled(ob.enableAutoCheck);
+    });
+  }, []);
 
   return (
     <ListItem>

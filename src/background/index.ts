@@ -21,3 +21,7 @@ browser.contextMenus.onClicked.addListener((info) => {
       });
     });
 });
+
+browser.runtime.onInstalled.addListener((details) => {
+  browser.storage.local.set({ enableAutoCheck: true }).then();
+});

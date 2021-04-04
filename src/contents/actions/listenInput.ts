@@ -1,13 +1,17 @@
 import DayOfTheWeekChecker from "../../lib/DayOfTheWeekChecker";
 import showCheckResult from "./showResult";
+import { browser } from "webextension-polyfill-ts";
 
 const mark = "markedByCheckedOfTheWeekChromeExtension";
 
 export default function listenInput() {
-  setStyle();
-  document.querySelectorAll("textarea").forEach((input) => {
-    input.addEventListener("focusout", (ev) => onFocusOut(ev));
-    input.addEventListener("focus", (ev) => onFocus(ev));
+  browser.storage.local.get("enableAutoCheck").then((ob) => {
+    if (!ob.enableAutoCheck) return;
+    setStyle();
+    document.querySelectorAll("textarea").forEach((input) => {
+      input.addEventListener("focusout", (ev) => onFocusOut(ev));
+      input.addEventListener("focus", (ev) => onFocus(ev));
+    });
   });
 }
 
