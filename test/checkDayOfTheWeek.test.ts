@@ -2,17 +2,17 @@ import DayOfTheWeekChecker from "../src/lib/DayOfTheWeekChecker";
 
 const ng = {
   isInvalid: true,
+  isGuessed: false,
   invalidDayOfTheWeek: "水",
   validDayOfTheWeek: "月",
   targetDate: new Date(2021, 2, 8),
-  targetDateStr: "2021/03/08",
 };
 const ok = {
   isInvalid: false,
+  isGuessed: false,
   invalidDayOfTheWeek: "月",
   validDayOfTheWeek: "月",
   targetDate: new Date(2021, 2, 8),
-  targetDateStr: "2021/03/08",
 };
 
 test("test", (): void => {
@@ -20,15 +20,24 @@ test("test", (): void => {
     new DayOfTheWeekChecker(`
       2021/03/08(水)
       2021/03/08(月)
-      2021/3/8(水)
-      2021/3/8(月)
-      2021年03月08日（水）
-      2021年03月08日（月）
-      2021年3月8日（水）
-      2021年3月8日（月）
       `).getFoundList()
   ).toStrictEqual([ng, ok]);
 });
+
+const maybeNg = {
+  isInvalid: true,
+  isGuessed: true,
+  invalidDayOfTheWeek: "水",
+  validDayOfTheWeek: "月",
+  targetDate: new Date(2021, 2, 8),
+};
+const maybeOk = {
+  isInvalid: false,
+  isGuessed: true,
+  invalidDayOfTheWeek: "月",
+  validDayOfTheWeek: "月",
+  targetDate: new Date(2021, 2, 8),
+};
 
 test("test without year", (): void => {
   expect(
@@ -36,7 +45,7 @@ test("test without year", (): void => {
       03/08(水)
       03/08(月)
       `).getFoundList()
-  ).toStrictEqual([ng, ok]);
+  ).toStrictEqual([maybeNg, maybeOk]);
 });
 
 test.each([
