@@ -32,10 +32,10 @@ export const WhiteList = () => {
   }, []);
 
   function showSiteList(props: ListChildComponentProps) {
-    const { index } = props;
+    const { index, style } = props;
 
     return (
-      <ListItem button key={index}>
+      <ListItem button key={index} style={style}>
         <ListItemText primary={whiteList[index]} />
         <Button onClick={(_) => remove(index)}>☓</Button>
       </ListItem>
