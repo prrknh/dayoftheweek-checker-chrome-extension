@@ -7,6 +7,7 @@ chrome.runtime.onInstalled.addListener(function () {
     title: 'check "%s"',
     contexts: ["selection"],
   });
+  browser.storage.local.set({ disabledAutoCheck: false, whiteList: [] }).then();
 });
 
 browser.contextMenus.onClicked.addListener((info) => {
@@ -20,8 +21,4 @@ browser.contextMenus.onClicked.addListener((info) => {
         },
       });
     });
-});
-
-browser.runtime.onInstalled.addListener((details) => {
-  browser.storage.local.set({ enableAutoCheck: true, whiteList: [] }).then();
 });

@@ -11,7 +11,7 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { browser } from "webextension-polyfill-ts";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
 
-export const WhiteList = () => {
+export const WhiteListSetting = () => {
   const [onlyWhiteList, setOnlyWhiteList] = useState(false);
   const [whiteList, setWhiteList] = useState<string[]>([]);
   const [hasCurrentPageInWhiteList, setHasCurrentPageInWhiteList] = useState(
@@ -45,7 +45,7 @@ export const WhiteList = () => {
           setHasCurrentPageInWhiteList(ob.whiteList.indexOf(hostname) > -1);
         });
       })
-      .catch((_) => console.error("something wrong happende"));
+      .catch((_) => console.error("something wrong happened"));
   }, []);
 
   function showSiteList(props: ListChildComponentProps) {
