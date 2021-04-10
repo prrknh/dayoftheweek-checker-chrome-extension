@@ -4,9 +4,12 @@ import { browser } from "webextension-polyfill-ts";
 
 const mark = "markedByCheckedOfTheWeekChromeExtension";
 
+// check setting, then do nothing if disabled.
 export default function listenInput() {
-  browser.storage.local.get("enableAutoCheck").then((ob) => {
-    if (!ob.enableAutoCheck) return;
+  browser.storage.local.get(["disabledAutoCheck", "whiteList"]).then((ob) => {
+    if (ob.disabledAutoCheck || ob.whiteList.indexOf(location.hostname) > -1)
+      return;
+
     setStyle();
     document.querySelectorAll("textarea").forEach((input) => {
       input.addEventListener("focusout", (ev) => onFocusOut(ev));
