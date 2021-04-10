@@ -18,7 +18,7 @@ export const EnableButton = () => {
   }
 
   useEffect(() => {
-    browser.storage.local.get("enableAutoCheck").then((ob) => {
+    browser.storage.local.get(["enableAutoCheck"]).then((ob) => {
       setEnabled(ob.enableAutoCheck);
     });
   }, []);
@@ -28,7 +28,7 @@ export const EnableButton = () => {
       <ListItemIcon>
         <CheckCircleIcon />
       </ListItemIcon>
-      <ListItemText primary="enable auto check in input?" />
+      <ListItemText primary="Always enable?" />
       <ListItemSecondaryAction>
         <Switch checked={enabled} onChange={onChange} />
       </ListItemSecondaryAction>
