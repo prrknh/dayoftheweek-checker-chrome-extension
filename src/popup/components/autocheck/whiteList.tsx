@@ -12,23 +12,40 @@ import { browser } from "webextension-polyfill-ts";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
 
 export const WhiteList = () => {
-  const [enabled, setEnabled] = useState(false);
+  const [onlyWhiteList, setOnlyWhiteList] = useState(false);
   const [whiteList, setWhiteList] = useState<string[]>([]);
+  const [hasCurrentPageInWhiteList, setHasCurrentPageInWhiteList] = useState(
+    true
+  );
+  const [currentPageDomain, setCurrentPageDomain] = useState("");
 
   function onChange() {
-    browser.storage.local.set({ enableAutoCheck: !enabled }).then();
-    setEnabled((prev) => !prev);
+    browser.storage.local.set({ onlyWhiteList: !onlyWhiteList }).then();
+    setOnlyWhiteList((prev) => !prev);
   }
 
   useEffect(() => {
-    console.log("effect");
-    browser.storage.local
-      .get(["enableAutoCheck", "whiteSiteList"])
-      .then((ob) => {
-        setEnabled(ob.enableAutoCheck);
-        // setWhiteList(ob.whiteSiteList);
-        setWhiteList(["a", "b", "c"]);
-      });
+    browser.tabs
+      .query({ active: true })
+      .then((tabs) => {
+        if (!tabs[0].url) {
+          throw new Error();
+        }
+        if (tabs[0].url !== "") {
+          setCurrentPageDomain(new URL(tabs[0].url).hostname);
+        } else {
+          setHasCurrentPageInWhiteList(true);
+        }
+        return new URL(tabs[0].url).hostname;
+      })
+      .then((hostname) => {
+        browser.storage.local.get(["onlyWhiteList", "whiteList"]).then((ob) => {
+          setOnlyWhiteList(ob.onlyWhiteList);
+          setWhiteList(ob.whiteList);
+          setHasCurrentPageInWhiteList(ob.whiteList.indexOf(hostname) > -1);
+        });
+      })
+      .catch((_) => console.error("something wrong happende"));
   }, []);
 
   function showSiteList(props: ListChildComponentProps) {
@@ -42,12 +59,21 @@ export const WhiteList = () => {
     );
   }
   function remove(index: number): void {
-    setWhiteList(whiteList.filter((_, i) => i !== index));
+    const removed = whiteList.filter((_, i) => i !== index);
+    browser.storage.local.set({ whiteList: removed }).then(() => {
+      if (whiteList[index] === currentPageDomain)
+        setHasCurrentPageInWhiteList(false);
+      setWhiteList(removed);
+    });
   }
 
   function addCurrentPage(): void {
-    setWhiteList(["hoge", ...whiteList]);
-    return;
+    browser.storage.local
+      .set({ whiteList: [currentPageDomain, ...whiteList] })
+      .then(() => {
+        setWhiteList([currentPageDomain, ...whiteList]);
+        setHasCurrentPageInWhiteList(true);
+      });
   }
 
   return (
@@ -58,25 +84,39 @@ export const WhiteList = () => {
         </ListItemIcon>
         <ListItemText primary="Only in specific site?" />
         <ListItemSecondaryAction>
-          <Switch checked={enabled} onChange={onChange} />
+          <Switch checked={onlyWhiteList} onChange={onChange} />
         </ListItemSecondaryAction>
       </ListItem>
-      <ListItem>
-        <ListItemIcon />
-        <FixedSizeList
-          height={100}
-          width={300}
-          itemSize={46}
-          itemCount={whiteList.length}
-        >
-          {showSiteList}
-        </FixedSizeList>
-      </ListItem>
-      <ListItem>
-        <ListItemIcon />
-        <ListItemText primary="Add current page" />
-        <Button onClick={addCurrentPage}>+</Button>
-      </ListItem>
+      {onlyWhiteList && (
+        <>
+          <ListItem>
+            <ListItemIcon />
+            {whiteList.length == 0 && (
+              <ListItemText primary="(no white site list)" />
+            )}
+            {whiteList.length > 0 && (
+              <FixedSizeList
+                height={whiteList.length * 25 + 10}
+                width={300}
+                itemSize={25}
+                itemCount={whiteList.length}
+              >
+                {showSiteList}
+              </FixedSizeList>
+            )}
+          </ListItem>
+          <ListItem>
+            <ListItemIcon />
+            <ListItemText primary="Add current page" />
+            <Button
+              disabled={hasCurrentPageInWhiteList}
+              onClick={addCurrentPage}
+            >
+              +
+            </Button>
+          </ListItem>
+        </>
+      )}
     </>
   );
 };
