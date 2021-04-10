@@ -7,7 +7,9 @@ chrome.runtime.onInstalled.addListener(function () {
     title: 'check "%s"',
     contexts: ["selection"],
   });
-  browser.storage.local.set({ disabledAutoCheck: false, whiteList: [] }).then();
+  browser.storage.local
+    .set({ disabledAutoCheck: false, onlyWhiteList: false, whiteList: [] })
+    .then();
 });
 
 browser.contextMenus.onClicked.addListener((info) => {

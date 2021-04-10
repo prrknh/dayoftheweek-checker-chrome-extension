@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  List,
   ListItem,
   ListItemIcon,
   ListItemSecondaryAction,
@@ -22,13 +21,13 @@ export const AutoCheckSetting = () => {
 
   useEffect(() => {
     browser.storage.local.get(["disabledAutoCheck"]).then((ob) => {
-      setDisabled(ob.enableAutoCheck);
+      setDisabled(ob.disabledAutoCheck);
     });
   }, []);
 
   return (
     <>
-      <Typography variant="h6">Auto Check Setting</Typography>
+      <Typography variant="h6">Auto input Check Setting</Typography>
       <ListItem>
         <ListItemIcon>
           <CheckCircleIcon />

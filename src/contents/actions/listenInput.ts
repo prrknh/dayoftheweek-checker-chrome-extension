@@ -6,16 +6,19 @@ const mark = "markedByCheckedOfTheWeekChromeExtension";
 
 // check setting, then do nothing if disabled.
 export default function listenInput() {
-  browser.storage.local.get(["disabledAutoCheck", "whiteList"]).then((ob) => {
-    if (ob.disabledAutoCheck || ob.whiteList.indexOf(location.hostname) > -1)
-      return;
+  browser.storage.local
+    .get(["disabledAutoCheck", "onlyWhiteList", "whiteList"])
+    .then((ob) => {
+      if (ob.disabledAutoCheck) return;
+      if (ob.onlyWhiteList && ob.whiteList.indexOf(location.hostname) < 0)
+        return;
 
-    setStyle();
-    document.querySelectorAll("textarea").forEach((input) => {
-      input.addEventListener("focusout", (ev) => onFocusOut(ev));
-      input.addEventListener("focus", (ev) => onFocus(ev));
+      setStyle();
+      document.querySelectorAll("textarea").forEach((input) => {
+        input.addEventListener("focusout", (ev) => onFocusOut(ev));
+        input.addEventListener("focus", (ev) => onFocus(ev));
+      });
     });
-  });
 }
 
 function onFocusOut(e: Event) {

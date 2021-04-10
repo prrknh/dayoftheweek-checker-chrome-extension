@@ -8,6 +8,7 @@ import {
   Switch,
 } from "@material-ui/core";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import CheckIcon from "@material-ui/icons/Check";
 import { browser } from "webextension-polyfill-ts";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
 
@@ -53,6 +54,9 @@ export const WhiteListSetting = () => {
 
     return (
       <ListItem button key={index} style={style}>
+        {whiteList[index] === currentPageDomain && (
+          <CheckIcon color="secondary" />
+        )}
         <ListItemText primary={whiteList[index]} />
         <Button onClick={(_) => remove(index)}>☓</Button>
       </ListItem>
@@ -105,16 +109,18 @@ export const WhiteListSetting = () => {
               </FixedSizeList>
             )}
           </ListItem>
-          <ListItem>
-            <ListItemIcon />
-            <ListItemText primary="Add current page" />
-            <Button
-              disabled={hasCurrentPageInWhiteList}
-              onClick={addCurrentPage}
-            >
-              +
-            </Button>
-          </ListItem>
+          {!hasCurrentPageInWhiteList && (
+            <ListItem>
+              <ListItemIcon />
+              <ListItemText primary="Add current page" />
+              <Button
+                disabled={hasCurrentPageInWhiteList}
+                onClick={addCurrentPage}
+              >
+                +
+              </Button>
+            </ListItem>
+          )}
         </>
       )}
     </>
