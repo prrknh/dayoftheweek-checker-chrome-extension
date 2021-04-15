@@ -27,12 +27,12 @@ export const AutoCheckSetting = () => {
 
   return (
     <>
-      <Typography variant="h6">Auto input Check Setting</Typography>
+      <Typography variant="h6">入力文字自動チェック設定</Typography>
       <ListItem>
         <ListItemIcon>
           <CheckCircleIcon />
         </ListItemIcon>
-        <ListItemText primary="Always disabled?" />
+        <ListItemText primary="常に無効" />
         <ListItemSecondaryAction>
           <Switch checked={disabled} onChange={onChange} />
         </ListItemSecondaryAction>

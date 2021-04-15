@@ -86,7 +86,7 @@ export const WhiteListSetting = () => {
         <ListItemIcon>
           <CheckCircleIcon />
         </ListItemIcon>
-        <ListItemText primary="Only in specific site?" />
+        <ListItemText primary="許可したサイトのみ有効" />
         <ListItemSecondaryAction>
           <Switch checked={onlyWhiteList} onChange={onChange} />
         </ListItemSecondaryAction>
@@ -96,7 +96,7 @@ export const WhiteListSetting = () => {
           <ListItem>
             <ListItemIcon />
             {whiteList.length == 0 && (
-              <ListItemText primary="(no white site list)" />
+              <ListItemText primary="(許可したサイトがありません)" />
             )}
             {whiteList.length > 0 && (
               <FixedSizeList
@@ -112,7 +112,7 @@ export const WhiteListSetting = () => {
           {!hasCurrentPageInWhiteList && (
             <ListItem>
               <ListItemIcon />
-              <ListItemText primary="Add current page" />
+              <ListItemText primary="現在のサイトを追加する" />
               <Button
                 disabled={hasCurrentPageInWhiteList}
                 onClick={addCurrentPage}

@@ -5,7 +5,7 @@ export const Header = () => {
   return (
     <AppBar color="primary">
       <Toolbar>
-        <Typography variant="h5">DayOfTheWeekChecker</Typography>
+        <Typography variant="h6">曜日チェッカー</Typography>
       </Toolbar>
     </AppBar>
   );
