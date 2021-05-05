@@ -1,5 +1,5 @@
 export default interface CheckedDateString {
-  getId(): string;
+  equals(obj: CheckedDateString): boolean;
   getMessage(): string;
   isInvalid: boolean;
 }

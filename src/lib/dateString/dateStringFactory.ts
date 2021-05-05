@@ -1,6 +1,6 @@
-import { DateWithDOTWString } from "./DateWithDOTWString";
-import { DateWithoutDOTWString } from "./DateWithoutDOTWString";
-import CheckedDateString from "./CheckedDateString";
+import CheckedDateString from "./checkedDateString";
+import DateWithDOTWString from "./dateWithDOTWString";
+import DateWithoutDOTWString from "./dateWithoutDOTWString";
 
 export default class DateStringFactory {
   static create(matched: RegExpMatchArray): CheckedDateString | undefined {

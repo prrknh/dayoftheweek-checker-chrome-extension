@@ -1,4 +1,4 @@
-import Checker from "../../lib/Checker";
+import Checker from "../../lib/checker";
 import showCheckResult from "./showResult";
 import { browser } from "webextension-polyfill-ts";
 

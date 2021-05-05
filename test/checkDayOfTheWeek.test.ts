@@ -1,4 +1,5 @@
-import Checker, { regExp } from "../src/lib/Checker";
+import Checker, { regExp } from "../src/lib/checker";
+import { guessYear } from "../src/lib/dateString/dateWithoutDOTWString";
 
 const ng = {
   isInvalid: true,
@@ -53,9 +54,7 @@ test.each([
   [5, new Date(2021, 3 - 1, 5), "2021"],
   [11, new Date(2021, 1 - 1, 5), "2020"],
 ])("guess year from month", (targetMonth, now, expectedYear) => {
-  expect((new Checker("") as any).guessYear(targetMonth, now)).toEqual(
-    expectedYear
-  );
+  expect(guessYear(targetMonth, now)).toEqual(expectedYear);
 });
 
 test.each([

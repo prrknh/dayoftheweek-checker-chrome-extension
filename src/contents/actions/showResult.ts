@@ -1,5 +1,5 @@
 import Toastify from "toastify-js";
-import Checker from "../../lib/Checker";
+import Checker from "../../lib/checker";
 
 export function loadCssScript() {
   const link = document.createElement("link");

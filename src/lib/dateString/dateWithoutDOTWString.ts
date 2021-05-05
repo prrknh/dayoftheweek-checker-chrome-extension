@@ -1,9 +1,9 @@
 import { format, parse } from "date-fns";
-import CheckedDateString, { Matched } from "./CheckedDateString";
+import CheckedDateString, { Matched } from "./checkedDateString";
 
 const dayOfWeeks = ["日", "月", "火", "水", "木", "金", "土"];
 
-export class DateWithoutDOTWString implements CheckedDateString {
+export default class DateWithoutDOTWString implements CheckedDateString {
   public isInvalid = false;
 
   protected readonly isGuessed: boolean;
@@ -25,8 +25,8 @@ export class DateWithoutDOTWString implements CheckedDateString {
     this.validDayOfTheWeek = dayOfWeeks[dateFromYMD.getDay()];
   }
 
-  getId(): string {
-    return "";
+  equals(obj: CheckedDateString): boolean {
+    return obj.getMessage() === this.getMessage();
   }
 
   getMessage(): string {
@@ -39,7 +39,7 @@ export class DateWithoutDOTWString implements CheckedDateString {
   }
 }
 
-function guessYear(targetMonth: number, now: Date): string {
+export function guessYear(targetMonth: number, now: Date): string {
   if (targetMonth > 12) return now.getFullYear().toString();
   if (Math.abs(now.getMonth() - targetMonth) < 6) {
     return now.getFullYear().toString();

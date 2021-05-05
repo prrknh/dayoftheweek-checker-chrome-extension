@@ -1,5 +1,5 @@
-import CheckedDateString from "./DateString/CheckedDateString";
-import DateStringFactory from "./DateString/DateStringFactory";
+import CheckedDateString from "./dateString/checkedDateString";
+import DateStringFactory from "./dateString/dateStringFactory";
 
 export const regExp = new RegExp(
   "(?<year>([0-9]{4})?)[年\\/]?(?<month>[0-9]{1,2})[月\\/](?<date>[0-9]{1,2})日?[s]?[(（]?(?<dayoftheweek>[日月火水木金土]?)[)）]?",
@@ -10,13 +10,8 @@ export default class Checker {
   private readonly foundList: CheckedDateString[];
 
   constructor(input: string) {
-    const matchDateWithDayOfTheWeeks: IterableIterator<RegExpMatchArray> = input.matchAll(
-      regExp
-    );
-
     const list: CheckedDateString[] = [];
-    console.log({ matchDateWithDayOfTheWeeks: matchDateWithDayOfTheWeeks });
-    for (let matched of matchDateWithDayOfTheWeeks) {
+    for (let matched of input.matchAll(regExp)) {
       const dt = DateStringFactory.create(matched);
       if (dt) {
         list.push(dt);
@@ -25,7 +20,7 @@ export default class Checker {
 
     const uniqList: CheckedDateString[] = [];
     list.forEach((w) => {
-      if (!uniqList.find((s) => s.getId() === w.getId())) uniqList.push(w);
+      if (!uniqList.find((s) => w.equals(s))) uniqList.push(w);
     });
 
     this.foundList = uniqList.sort((a, b) => (a.isInvalid ? -1 : 1));

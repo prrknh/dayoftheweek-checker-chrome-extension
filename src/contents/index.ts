@@ -1,6 +1,6 @@
 import showCheckResult, { loadCssScript } from "./actions/showResult";
 import listenInput from "./actions/listenInput";
-import Checker from "../lib/Checker";
+import Checker from "../lib/checker";
 
 loadCssScript();
 listenInput();
