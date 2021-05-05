@@ -9,10 +9,10 @@ export default class DateStringFactory {
 
     let checked: CheckedDateString;
     try {
-      checked = matched.groups.dayoftheweek
+      checked = matched.groups.dotw
         ? new DateWithDOTWString({
             month: matched.groups.month,
-            dotw: matched.groups.dayoftheweek,
+            dotw: matched.groups.dotw,
             date: matched.groups.date,
             year: matched.groups.year,
           })

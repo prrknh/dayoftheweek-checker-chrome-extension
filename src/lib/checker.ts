@@ -2,7 +2,7 @@ import CheckedDateString from "./dateString/checkedDateString";
 import DateStringFactory from "./dateString/dateStringFactory";
 
 export const regExp = new RegExp(
-  "(?<year>([0-9]{4})?)\\D?(?<month>[0-9]{1,2})\\D(?<date>[0-9]{1,2})日?[\\s]?\\D?(?<dayoftheweek>[日月火水木金土]?)\\D?",
+  "(?<year>([0-9]{4})?)\\D?(?<month>[0-9]{1,2})\\D(?<date>[0-9]{1,2})日?[\\s]?\\D?(?<dotw>[日月火水木金土]?)\\D?",
   "g"
 );
 
