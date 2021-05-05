@@ -1,4 +1,5 @@
-import { DateString, DateStringFactory } from "./DateString/DateString";
+import CheckedDateString from "./DateString/CheckedDateString";
+import DateStringFactory from "./DateString/DateStringFactory";
 
 export const regExp = new RegExp(
   "(?<year>([0-9]{4})?)[年\\/]?(?<month>[0-9]{1,2})[月\\/](?<date>[0-9]{1,2})日?[s]?[(（]?(?<dayoftheweek>[日月火水木金土]?)[)）]?",
@@ -6,25 +7,23 @@ export const regExp = new RegExp(
 );
 
 export default class Checker {
-  private readonly foundList: DateString[];
+  private readonly foundList: CheckedDateString[];
 
   constructor(input: string) {
     const matchDateWithDayOfTheWeeks: IterableIterator<RegExpMatchArray> = input.matchAll(
       regExp
     );
 
-    const list: DateString[] = [];
+    const list: CheckedDateString[] = [];
     console.log({ matchDateWithDayOfTheWeeks: matchDateWithDayOfTheWeeks });
     for (let matched of matchDateWithDayOfTheWeeks) {
-      const dt: DateString | undefined = DateStringFactory.create(matched);
+      const dt = DateStringFactory.create(matched);
       if (dt) {
         list.push(dt);
       }
     }
 
-    console.log({ list: list });
-
-    const uniqList: DateString[] = [];
+    const uniqList: CheckedDateString[] = [];
     list.forEach((w) => {
       if (!uniqList.find((s) => s.getId() === w.getId())) uniqList.push(w);
     });
@@ -33,11 +32,11 @@ export default class Checker {
   }
 
   public getHtmlMessage(): string {
-    if (this.isNotFound()) return "曜日文字列は見つかりませんでした。";
+    if (this.isNotFound()) return "日付文字列は見つかりませんでした。";
     return this.foundList.map((s) => s.getMessage()).join("</br>");
   }
 
-  public getFoundList(): DateString[] {
+  public getFoundList(): CheckedDateString[] {
     return this.foundList;
   }
 

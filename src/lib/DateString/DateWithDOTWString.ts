@@ -1,38 +1,15 @@
-import { format, parse } from "date-fns";
-import {
-  DateString,
-  dayOfWeeks,
-  guessYear,
-  MatchedWithDOTW,
-} from "./DateString";
+import { format } from "date-fns";
+import { MatchedWithDOTW } from "./CheckedDateString";
+import { DateWithoutDOTWString } from "./DateWithoutDOTWString";
 
-export class DateWithDOTWString implements DateString {
-  invalidDayOfTheWeek: string;
-  isInvalid: boolean;
-  isGuessed: boolean;
-  targetDate: Date;
-  validDayOfTheWeek: string;
+export class DateWithDOTWString extends DateWithoutDOTWString {
+  private readonly invalidDayOfTheWeek?: string;
 
   constructor(matched: MatchedWithDOTW) {
-    const year =
-      matched.year !== ""
-        ? matched.year
-        : guessYear(parseInt(matched.month), new Date());
-
-    const dateFromYMD = parse(
-      `${year}-${matched.month}-${matched.date}`,
-      "yyyy-MM-dd",
-      new Date()
-    );
-    // if (isNaN(dateFromYMD.getDate())) return;
-
-    const dayOfWeekFromYMD = dayOfWeeks[dateFromYMD.getDay()];
-
-    this.isInvalid = dayOfWeekFromYMD !== matched.dotw;
-    this.isGuessed = matched.year === "";
-    this.targetDate = dateFromYMD;
-    this.invalidDayOfTheWeek = matched.dotw;
-    this.validDayOfTheWeek = dayOfWeekFromYMD;
+    super(matched);
+    const isInvalid = this.validDayOfTheWeek !== matched.dotw;
+    this.isInvalid = isInvalid;
+    if (isInvalid) this.invalidDayOfTheWeek = matched.dotw;
   }
 
   getId(): string {
