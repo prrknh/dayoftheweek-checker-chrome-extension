@@ -1,7 +1,7 @@
 {
   "name": "曜日チェッカー",
-  "description": "日付に対して曜日が正しいかチェックします",
-  "version": "1.0.3",
+  "description": "WEBサイト上の日付から曜日をチェックします",
+  "version": "1.0.4",
   "manifest_version": 2,
   "icons": {
     "16": "icons/default.png"
