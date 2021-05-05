@@ -28,7 +28,10 @@ export default class Checker {
 
   public getHtmlMessage(): string {
     if (this.isNotFound()) return "日付文字列は見つかりませんでした。";
-    return this.foundList.map((s) => s.getMessage()).join("</br>");
+    return this.foundList
+      .filter((s) => !this.hasInvalid() || s.isInvalid)
+      .map((s) => s.getMessage())
+      .join("</br>");
   }
 
   public getFoundList(): CheckedDateString[] {

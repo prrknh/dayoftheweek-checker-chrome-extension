@@ -12,15 +12,18 @@ export default class DateWithoutDOTWString implements CheckedDateString {
 
   constructor(matched: Matched) {
     this.isGuessed = matched.year === "";
-    const year = this.isGuessed
-      ? guessYear(parseInt(matched.month), new Date())
-      : matched.year;
+    const month = parseInt(matched.month);
+    if (month > 12) throw new Error(`月が不正でした=> ${matched.month}`);
+    const year = this.isGuessed ? guessYear(month, new Date()) : matched.year;
 
     const dateFromYMD = parse(
       `${year}-${matched.month}-${matched.date}`,
       "yyyy-MM-dd",
       new Date()
     );
+    if (isNaN(dateFromYMD.getDate()))
+      throw new Error(`日付を不正でした=>${matched.month}/${matched.date}`);
+
     this.targetDate = dateFromYMD;
     this.validDayOfTheWeek = dayOfWeeks[dateFromYMD.getDay()];
   }
