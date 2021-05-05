@@ -1,4 +1,4 @@
-import DayOfTheWeekChecker from "../../lib/DayOfTheWeekChecker";
+import Checker from "../../lib/Checker";
 import showCheckResult from "./showResult";
 import { browser } from "webextension-polyfill-ts";
 
@@ -22,9 +22,7 @@ export default function listenInput() {
 }
 
 function onFocusOut(e: Event) {
-  const checker = new DayOfTheWeekChecker(
-    (e.target as HTMLTextAreaElement).value
-  );
+  const checker = new Checker((e.target as HTMLTextAreaElement).value);
 
   showCheckResult(checker);
 

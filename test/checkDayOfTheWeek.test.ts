@@ -1,4 +1,4 @@
-import DayOfTheWeekChecker from "../src/lib/DayOfTheWeekChecker";
+import Checker, { regExp } from "../src/lib/Checker";
 
 const ng = {
   isInvalid: true,
@@ -17,7 +17,7 @@ const ok = {
 
 test("test", (): void => {
   expect(
-    new DayOfTheWeekChecker(`
+    new Checker(`
       2021/03/08(水)
       2021/03/08(月)
       `).getFoundList()
@@ -41,7 +41,7 @@ const maybeOk = {
 
 test("test without year", (): void => {
   expect(
-    new DayOfTheWeekChecker(`
+    new Checker(`
       03/08(水)
       03/08(月)
       `).getFoundList()
@@ -53,7 +53,19 @@ test.each([
   [5, new Date(2021, 3 - 1, 5), "2021"],
   [11, new Date(2021, 1 - 1, 5), "2020"],
 ])("guess year from month", (targetMonth, now, expectedYear) => {
-  expect(
-    (new DayOfTheWeekChecker("") as any).guessYear(targetMonth, now)
-  ).toEqual(expectedYear);
+  expect((new Checker("") as any).guessYear(targetMonth, now)).toEqual(
+    expectedYear
+  );
+});
+
+test.each([
+  ["2021/04/01(月)", "2021", "04", "01", "月"],
+  ["04/01(月)", "", "04", "01", "月"],
+  ["04/01", "", "04", "01", ""],
+])("regex test", (input, year, month, date, dotw) => {
+  const matchDateWithDayOfTheWeeks = [...input.matchAll(regExp)];
+  expect(matchDateWithDayOfTheWeeks[0]?.groups?.year).toEqual(year);
+  expect(matchDateWithDayOfTheWeeks[0]?.groups?.month).toEqual(month);
+  expect(matchDateWithDayOfTheWeeks[0]?.groups?.date).toEqual(date);
+  expect(matchDateWithDayOfTheWeeks[0]?.groups?.dayoftheweek).toEqual(dotw);
 });

@@ -1,6 +1,6 @@
 import showCheckResult, { loadCssScript } from "./actions/showResult";
 import listenInput from "./actions/listenInput";
-import DayOfTheWeekChecker from "../lib/DayOfTheWeekChecker";
+import Checker from "../lib/Checker";
 
 loadCssScript();
 listenInput();
@@ -8,8 +8,6 @@ listenInput();
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   switch (request.message.id) {
     case "fromContextMenuWithSelectedText":
-      sendResponse(
-        showCheckResult(new DayOfTheWeekChecker(request.message.selectedText))
-      );
+      sendResponse(showCheckResult(new Checker(request.message.selectedText)));
   }
 });

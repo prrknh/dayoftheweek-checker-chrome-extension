@@ -1,5 +1,5 @@
 import Toastify from "toastify-js";
-import DayOfTheWeekChecker from "../../lib/DayOfTheWeekChecker";
+import Checker from "../../lib/Checker";
 
 export function loadCssScript() {
   const link = document.createElement("link");
@@ -9,7 +9,7 @@ export function loadCssScript() {
   document.head.appendChild(link);
 }
 
-export default function showCheckResult(checker: DayOfTheWeekChecker) {
+export default function showCheckResult(checker: Checker) {
   Toastify({
     text: checker.getHtmlMessage(),
     position: "left",
@@ -17,7 +17,7 @@ export default function showCheckResult(checker: DayOfTheWeekChecker) {
   }).showToast();
 }
 
-function getColor(checker: DayOfTheWeekChecker): string {
+function getColor(checker: Checker): string {
   if (checker.isNotFound()) return "#d0d0d0";
   if (checker.hasInvalid())
     return "linear-gradient(to right, #ff5f6d, #ffc371)";
